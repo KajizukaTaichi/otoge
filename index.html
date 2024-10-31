@@ -7,6 +7,8 @@
     </head>
 
     <body>
+        <div id="player"></div>
+
         <script>
             // クレジット：素材はCCBY4.0ライセンスのOtoLogicを使用しています。
             const audioUrl =
@@ -46,12 +48,7 @@
 
                     elm.addEventListener("click", function () {
                         let pos = parseInt(this.getBoundingClientRect().bottom);
-                        console.log(
-                            pos,
-                            this.getBoundingClientRect().bottom,
-                            window.innerHeight,
-                        );
-                        if (pos >= 0) {
+                        if (pos >= window.innerHeight - 300) {
                             new Audio(audioUrl).play();
 
                             score += 1;
@@ -74,7 +71,7 @@
                     let area = document.getElementById("area");
                     let bottom = parseInt(area.style.bottom.replace("vh", ""));
                     area.style.bottom = `${bottom - 1}vh`;
-                }, 40);
+                }, 20);
             }
 
             let musicScore = Array(100)
@@ -88,8 +85,13 @@
                 .flat();
             playGame(musicScore);
         </script>
+        <script src="playmusic.js"></script>
 
         <style>
+            #player {
+                display: none;
+            }
+
             .space {
                 width: 99vw;
                 position: relative;
