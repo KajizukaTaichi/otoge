@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>音ゲー</title>
+    </head>
+
+    <body>
+        <script>
+            let score = 0;
+            let intervalManage;
+
+            function Note(size, space) {
+                this.size = size;
+                this.space = space;
+            }
+
+            function focusLast() {
+                Array.from(document.getElementById("area").children)
+                    .filter((element) => element.classList.contains("note"))
+                    .pop()
+                    .focus();
+            }
+
+            function playGame(musicScore) {
+                const max = musicScore.length;
+
+                let area = document.createElement("div");
+                area.id = "area";
+                area.style.bottom = "100vh";
+
+                for (item of musicScore) {
+                    let space = document.createElement("div");
+                    space.style.height = `${item.space * 1.5}vh`;
+                    space.className = "space";
+                    area.appendChild(space);
+
+                    let elm = document.createElement("button");
+
+                    elm.className = "note";
+                    elm.style.height = `${item.size * 5}vh`;
+
+                    elm.addEventListener("click", function () {
+                        let pos = parseInt(this.getBoundingClientRect().bottom);
+                        console.log(
+                            pos,
+                            this.getBoundingClientRect().bottom,
+                            window.innerHeight,
+                        );
+                        if (
+                            pos >=
+                            window.innerHeight - window.innerHeight / 3
+                        ) {
+                            score += 1;
+                            this.className = "space";
+                            focusLast();
+                        }
+
+                        if (score == max) {
+                            alert("Clear!");
+                            area.remove();
+                            clearInterval(intervalManage);
+                        }
+                    });
+                    area.appendChild(elm);
+                }
+                document.body.appendChild(area);
+
+                focusLast();
+                intervalManage = setInterval(function () {
+                    let area = document.getElementById("area");
+                    let bottom = parseInt(area.style.bottom.replace("vh", ""));
+                    area.style.bottom = `${bottom - 1}vh`;
+                }, 40);
+            }
+
+            let musicScore = Array(100)
+                .fill([
+                    new Note(3, 5),
+                    new Note(5, 2),
+
+                    new Note(2, 5),
+                    new Note(2, 1),
+                    new Note(2, 1),
+                ])
+                .flat();
+            playGame(musicScore);
+        </script>
+
+        <style>
+            .space {
+                width: 99vw;
+                position: relative;
+                background-color: transparent;
+            }
+
+            .note {
+                width: 99vw;
+                position: relative;
+                border-width: 0;
+            }
+
+            #area {
+                position: absolute;
+            }
+
+            #area,
+            .note,
+            .space {
+                border-width: 0;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                height: 100vh;
+                overflow: hidden;
+                background: linear-gradient(to bottom, white, lightblue);
+            }
+        </style>
+    </body>
+</html>
