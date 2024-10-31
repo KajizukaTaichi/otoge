@@ -8,6 +8,9 @@
 
     <body>
         <script>
+            // クレジット：素材はCCBY4.0ライセンスのOtoLogicを使用しています。
+            const audioUrl =
+                "https://otologic.jp/sounds/se/pre/Tambourine01-2(Open).mp3";
             let score = 0;
             let intervalManage;
 
@@ -49,6 +52,8 @@
                             window.innerHeight,
                         );
                         if (pos >= 0) {
+                            new Audio(audioUrl).play();
+
                             score += 1;
                             this.className = "space";
                             focusLast();
