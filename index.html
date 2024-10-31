@@ -8,7 +8,17 @@
 
     <body>
         <div id="line"></div>
-        <div id="player"></div>
+        <div id="player">
+            <video
+                style="width: 408px; height: 360px; left: 351px; top: 0px"
+                tabindex="-1"
+                class="video-stream html5-main-video"
+                webkit-playsinline=""
+                playsinline=""
+                controlslist="nodownload"
+                src="blob:https://www.youtube.com/53924780-beb7-4e25-aa0b-64c27ba84c8e"
+            ></video>
+        </div>
 
         <script>
             // クレジット：素材はCCBY4.0ライセンスのOtoLogicを使用しています。
@@ -85,7 +95,6 @@
             let musicScore = Array(50)
                 .fill([
                     new Note(3, 10),
-
                     new Note(2, 3),
                     new Note(2, 3),
                     new Note(2, 3),
