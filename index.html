@@ -7,18 +7,25 @@
     </head>
 
     <body>
+        <div id="line"></div>
         <div id="player"></div>
 
         <script>
             // クレジット：素材はCCBY4.0ライセンスのOtoLogicを使用しています。
             const audioUrl =
                 "https://otologic.jp/sounds/se/pre/Tambourine01-2(Open).mp3";
+            const line = 400;
             let score = 0;
             let intervalManage;
 
             function Note(size, space) {
                 this.size = size;
                 this.space = space;
+            }
+
+            function positionLine() {
+                const elm = document.getElementById("line");
+                elm.style.top = `${window.innerHeight - line}px`;
             }
 
             function focusLast() {
@@ -47,8 +54,8 @@
                     elm.style.height = `${item.size * 5}vh`;
 
                     elm.addEventListener("click", function () {
-                        let pos = parseInt(this.getBoundingClientRect().bottom);
-                        if (pos >= window.innerHeight - 300) {
+                        let pos = parseInt(this.getBoundingClientRect().top);
+                        if (pos >= window.innerHeight - line) {
                             new Audio(audioUrl).play();
 
                             score += 1;
@@ -74,6 +81,7 @@
                 }, 20);
             }
 
+            positionLine();
             let musicScore = Array(100)
                 .fill([
                     new Note(5, 10),
@@ -88,6 +96,14 @@
         <script src="playmusic.js"></script>
 
         <style>
+            #line {
+                position: absolute;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background-color: blue;
+            }
+
             #player {
                 display: none;
             }
@@ -102,6 +118,7 @@
                 width: 99vw;
                 position: relative;
                 border-width: 0;
+                opacity: 0.5;
             }
 
             #area {
