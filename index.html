@@ -48,10 +48,7 @@
                             this.getBoundingClientRect().bottom,
                             window.innerHeight,
                         );
-                        if (
-                            pos >=
-                            window.innerHeight - window.innerHeight / 3
-                        ) {
+                        if (pos >= 0) {
                             score += 1;
                             this.className = "space";
                             focusLast();
@@ -77,10 +74,9 @@
 
             let musicScore = Array(100)
                 .fill([
-                    new Note(3, 5),
-                    new Note(5, 2),
+                    new Note(3, 3),
 
-                    new Note(2, 5),
+                    new Note(2, 1),
                     new Note(2, 1),
                     new Note(2, 1),
                 ])
