@@ -12,7 +12,7 @@
         <script>
             // クレジット：素材はCCBY4.0ライセンスのOtoLogicを使用しています。
             const audioUrl = "https://otologic.jp/sounds/se/pre/Tambourine01-2(Open).mp3";
-            const line = 400;
+            const line = 200;
             
             let score = 0;
             let intervalManage;
@@ -79,7 +79,7 @@
                     elm.style.height = `${item.size * 5}vh`;
 
                     let listener = function () {
-                        let pos = parseInt(this.getBoundingClientRect().top);
+                        let pos = parseInt(this.getBoundingClientRect().bottom);
                         if (pos >= window.innerHeight - line) {
                             new Audio(audioUrl).play();
 
