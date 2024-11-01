@@ -34,6 +34,20 @@
                     .focus();
             }
 
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting && entry.boundingClientRect.bottom > window.innerHeight) {
+                        entry.target.className = "space";
+                        observer.unobserve(entry.target);
+                        focusLast();
+                    }
+                });
+            }, {
+                root: null,              
+                rootMargin: "0px 0px 0px 0px", 
+                threshold: 1.0              
+            });
+
             function playGame(musicScore) {
                 const max = musicScore.length;
 
@@ -68,6 +82,7 @@
                             clearInterval(intervalManage);
                         }
                     });
+                    observer.observe(elm);
                     area.appendChild(elm);
                 }
                 document.body.appendChild(area);
@@ -91,15 +106,15 @@
                 .flat();
             playGame(musicScore);
         </script>
-        <script src="playmusic.js"></script>
 
         <style>
             #line {
+                z-index: 1;
                 position: absolute;
                 left: 0;
                 width: 100%;
                 height: 2px;
-                background-color: blue;
+                background-color: red;
             }
 
             #player {
@@ -116,11 +131,18 @@
                 width: 99vw;
                 position: relative;
                 border-width: 0;
-                opacity: 0.5;
+                opacity: 80%;
+                background-color: yellow;
             }
 
             #area {
+                z-index: 0;
                 position: absolute;
+            }
+
+            button:focus {
+                outline: auto;
+                outline-color: orangered;
             }
 
             #area,
@@ -134,7 +156,7 @@
             body {
                 height: 100vh;
                 overflow: hidden;
-                background: linear-gradient(to bottom, white, lightblue);
+                background: linear-gradient(to bottom, white, orange);
             }
         </style>
     </body>
