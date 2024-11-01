@@ -11,11 +11,13 @@
 
         <script>
             // クレジット：素材はCCBY4.0ライセンスのOtoLogicを使用しています。
-            const audioUrl =
-                "https://otologic.jp/sounds/se/pre/Tambourine01-2(Open).mp3";
+            const audioUrl = "https://otologic.jp/sounds/se/pre/Tambourine01-2(Open).mp3";
             const line = 400;
+            
             let score = 0;
             let intervalManage;
+            let area;
+            let max;
 
             function Note(size, space) {
                 this.size = size;
@@ -28,10 +30,20 @@
             }
 
             function focusLast() {
-                Array.from(document.getElementById("area").children)
-                    .filter((element) => element.classList.contains("note"))
-                    .pop()
-                    .focus();
+                try {
+                    Array.from(document.getElementById("area").children)
+                        .filter((element) => element.classList.contains("note"))
+                        .pop()
+                        .focus();
+                } catch {
+                    if (score >= max) {
+                        alert("Perfect!");
+                    } else {
+                        alert("Finish!");
+                    }
+                    area.remove();
+                    clearInterval(intervalManage);
+                }
             }
 
             const observer = new IntersectionObserver((entries, observer) => {
@@ -49,9 +61,9 @@
             });
 
             function playGame(musicScore) {
-                const max = musicScore.length;
+                max = musicScore.length;
 
-                let area = document.createElement("div");
+                area = document.createElement("div");
                 area.id = "area";
                 area.style.bottom = "100vh";
 
@@ -73,18 +85,8 @@
 
                             score += 1;
                             this.className = "space";
-                            
-                            try {
-                                focusLast();
-                            } catch {
-                                if (score >= max) {
-                                    alert("Perfect!");
-                                } else {
-                                    alert("Finish!");
-                                }
-                                area.remove();
-                                clearInterval(intervalManage);
-                            }
+                    
+                            focusLast();
                             this.removeEventListener("click", listener);
                         }
                     };
