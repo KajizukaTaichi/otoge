@@ -66,22 +66,30 @@
                     elm.className = "note";
                     elm.style.height = `${item.size * 5}vh`;
 
-                    elm.addEventListener("click", function () {
+                    let listener = function () {
                         let pos = parseInt(this.getBoundingClientRect().top);
                         if (pos >= window.innerHeight - line) {
                             new Audio(audioUrl).play();
 
                             score += 1;
                             this.className = "space";
-                            focusLast();
+                            
+                            try {
+                                focusLast();
+                            } catch {
+                                if (score >= max) {
+                                    alert("Perfect!");
+                                } else {
+                                    alert("Finish!");
+                                }
+                                area.remove();
+                                clearInterval(intervalManage);
+                            }
+                            this.removeEventListener("click", listener);
                         }
+                    };
 
-                        if (score == max) {
-                            alert("Clear!");
-                            area.remove();
-                            clearInterval(intervalManage);
-                        }
-                    });
+                    elm.addEventListener("click", listener);
                     observer.observe(elm);
                     area.appendChild(elm);
                 }
@@ -96,14 +104,12 @@
             }
 
             positionLine();
-            let musicScore = Array(50)
-                .fill([
-                    new Note(3, 10),
-                    new Note(2, 3),
-                    new Note(2, 3),
-                    new Note(2, 3),
-                ])
-                .flat();
+            let musicScore = [
+                new Note(3, 10),
+                new Note(2, 3),
+                new Note(2, 3),
+                new Note(2, 3),
+            ];
             playGame(musicScore);
         </script>
 
